@@ -17,7 +17,7 @@ angular.module('sislegisapp').controller('ProposicaoController', function ($scop
             }));
 
            $scope.votacoesSenado = VotacaoResource.queryAll(({
-                idProposicao: 112464, //$scope.proposicao.idProposicao,
+                idProposicao: $scope.proposicao.idProposicao,
                 origem: 'SENADO'
             }));
             console.log($scope.votacoesSenado);

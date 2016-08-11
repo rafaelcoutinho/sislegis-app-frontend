@@ -1,3 +1,15 @@
+<style>
+    .contra {
+        background-color: #fb6363;
+        border: 5px solid white;
+    }
+    
+    .afavor {
+        background-color: #61fb66;
+        border: 5px solid white;
+        ;
+    }
+</style>
 <section class="content-header">
     <h1>{{proposicao.sigla}}</h1>
 </section>
@@ -17,21 +29,18 @@
                                     <br/>
                                     <strong>Comissao: </strong>{{proposicao.comissao}}
                                     <br/>
-                                    <strong>Ordem na Pauta: </strong>{{proposicao.pautaComissaoAtual.ordemPauta}} <span
-                                        ng-show="proposicao.pautaComissaoAtual.pautaReuniaoComissao.manual!=true">({{proposicao.pautaComissaoAtual.pautaReuniaoComissao.data | date:'dd/MM HH:mm'}})</span>
+                                    <strong>Ordem na Pauta: </strong>{{proposicao.pautaComissaoAtual.ordemPauta}} <span ng-show="proposicao.pautaComissaoAtual.pautaReuniaoComissao.manual!=true">({{proposicao.pautaComissaoAtual.pautaReuniaoComissao.data | date:'dd/MM HH:mm'}})</span>
                                     <br/>
                                     <strong>Relator: </strong>{{proposicao.pautaComissaoAtual.relator}}
                                     <br/>
-                                        <span ng-show="proposicao.pautaComissaoAtual.resultado != ''">
+                                    <span ng-show="proposicao.pautaComissaoAtual.resultado != ''">
                                             <strong>Resultado: </strong>{{proposicao.pautaComissaoAtual.resultado}}
                                         </span>
                                     <br />
-                                    <a ng-show="proposicao.origem == 'SENADO'"
-                                           href="http://www.senado.leg.br/atividade/materia/detalhes.asp?p_cod_mate={{proposicao.idProposicao}}#DIV_TRAMITACAO"
-                                           target="_blank"><i class="fa fa-history"></i> Histórico de Tramitação</a>
-                                    <a ng-show="proposicao.origem == 'CAMARA'"
-                                           href="http://www.camara.gov.br/proposicoesWeb/fichadetramitacao?idProposicao={{proposicao.idProposicao}}#tramitacoes"
-                                           target="_blank"><i class="fa fa-history"></i> Histórico de Tramitação</a>
+                                    <a ng-show="proposicao.origem == 'SENADO'" href="http://www.senado.leg.br/atividade/materia/detalhes.asp?p_cod_mate={{proposicao.idProposicao}}#DIV_TRAMITACAO"
+                                    target="_blank"><i class="fa fa-history"></i> Histórico de Tramitação</a>
+                                    <a ng-show="proposicao.origem == 'CAMARA'" href="http://www.camara.gov.br/proposicoesWeb/fichadetramitacao?idProposicao={{proposicao.idProposicao}}#tramitacoes"
+                                    target="_blank"><i class="fa fa-history"></i> Histórico de Tramitação</a>
                                     <h4 ng-show="proposicao.historicoPosicionamentos.length > 0">Posicionamentos</h4>
                                     <ul>
                                         <li ng-repeat="item in proposicao.historicoPosicionamentos">
@@ -57,11 +66,11 @@
                             <div class="row">
                                 <div class="col-md-12" ng-show="votacoesSenado.length > 0">
                                     <h4>Senado</h4>
-                                    <div ng-repeat="secao in votacoesSenado" >
+                                    <div ng-repeat="secao in votacoesSenado">
                                         <p><strong>Data: </strong> {{secao.dataHora | date: 'dd/MM/yyyy'}}</p>
                                         <p><strong>Descrição: </strong> {{secao.descricao}}</p>
                                         <p><strong>Resultado: </strong> {{secao.resultado}}</p>
-                                        <div class="col-md-4" ng-repeat="voto in secao.votos">
+                                        <div class="col-md-4" ng-class="{'contra':voto.descricaoVoto=='Não','afavor':voto.descricaoVoto!='Não'}" ng-repeat="voto in secao.votos|orderBy:['descricaoVoto','partidoParlamentar','nomeParlamentar']">
                                             <p><strong>Parlamentar: </strong> {{voto.nomeParlamentar}}</p>
                                             <p><strong>Partido: </strong> {{voto.partidoParlamentar}}</p>
                                             <p><strong>UF: </strong> {{voto.ufParlamentar}}</p>
@@ -71,7 +80,7 @@
                                 </div>
                                 <div class="col-md-12" ng-show="votacoesCamara.length > 0">
                                     <h4>Câmara dos Deputados</h4>
-                                    <div ng-repeat="secao in votacoesCamara" >
+                                    <div ng-repeat="secao in votacoesCamara">
                                         <p><strong>Data: </strong> {{secao.dataHora | date: 'dd/MM/yyyy'}}</p>
                                         <p><strong>Descrição: </strong> {{secao.descricao}}</p>
                                         <p><strong>Resultado: </strong> {{secao.resultado}}</p>
